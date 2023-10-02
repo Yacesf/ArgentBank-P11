@@ -20,6 +20,8 @@
 }
 
 .main-nav a {
+  display: flex;
+  gap: 5px;
   font-weight: bold;
   color: #2c3e50;
 }
