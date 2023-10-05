@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import './index.css';
 import MainPage from './pages/MainPage/MainPage';
-import reportWebVitals from './reportWebVitals';
 import SignInPage from './pages/SignInPage/SignInPage';
+import UserPage from './pages/UserPage/UserPage';
+import reportWebVitals from './reportWebVitals';
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,15 @@ const router = createBrowserRouter([
   {
     path: "/sign-in",
     element: <SignInPage />,
+    errorElement: (
+      <div>
+        Error 404
+      </div>
+    ),
+  },
+  {
+    path: "/user",
+    element: <UserPage />,
     errorElement: (
       <div>
         Error 404
