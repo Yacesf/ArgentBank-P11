@@ -1,46 +1,17 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import './index.css';
-import MainPage from './pages/MainPage/MainPage';
-import SignInPage from './pages/SignInPage/SignInPage';
-import UserPage from './pages/UserPage/UserPage';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
+import store from "./services/store/store";
+import "./index.css";
+import reportWebVitals from "./reportWebVitals";
+import App from "./App";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <MainPage />,
-    errorElement: (
-      <div>
-        Error 404
-      </div>
-    ),
-  },
-  {
-    path: "/sign-in",
-    element: <SignInPage />,
-    errorElement: (
-      <div>
-        Error 404
-      </div>
-    ),
-  },
-  {
-    path: "/user",
-    element: <UserPage />,
-    errorElement: (
-      <div>
-        Error 404
-      </div>
-    ),
-  },
-]);
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>
 );
 
