@@ -5,7 +5,7 @@ const initialState = {
 
 const loginReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "LOGIN_SUCESS":
+    case "LOGIN_SUCCESS":
       return {
         ...state,
         user: action.payload,

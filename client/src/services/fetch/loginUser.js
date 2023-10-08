@@ -12,6 +12,7 @@ export const loginUser = (userData) => async (dispatch) => {
 
     if (response.ok) {
       const data = await response.json();
+      console.log(data);
       dispatch({ type: "LOGIN_SUCCESS", payload: data });
     } else {
       throw new Error("Erreur lors de la connexion.");
