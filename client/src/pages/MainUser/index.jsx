@@ -1,6 +1,25 @@
 import './index.css';
+import { useState } from 'react';
+import { profileUser } from "../../services/fetch/profileUser"
+import { useDispatch } from 'react-redux';
 
 function MainUser() {
+  const dispatch = useDispatch();
+  const fetchData = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await dispatch(profileUser());
+
+      if (response && response.ok) {
+      } else {
+        console.error("Error fetching profile data.");
+      }
+    } catch (error) {
+      console.error("An error occurred while fetching profile data:", error);
+    }
+  }
+
   return (
     <main className="main bg-dark">
     <div className="header">

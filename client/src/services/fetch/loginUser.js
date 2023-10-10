@@ -1,6 +1,6 @@
 export const loginUser = (userData) => async (dispatch) => {
   try {
-    console.log('Données userData envoyées :', userData);
+    console.log("Données userData envoyées :", userData);
     const response = await fetch("http://localhost:3001/api/v1/user/login", {
       method: "POST",
       headers: {
@@ -12,10 +12,12 @@ export const loginUser = (userData) => async (dispatch) => {
 
     if (response.ok) {
       const data = await response.json();
-      console.log(data);
-      dispatch({ type: "LOGIN_SUCCESS", payload: data });
+      const token = data.body.token;
+      console.log(token);
+      dispatch({ type: "LOGIN_SUCCESS", payload: token });
+      return response;
     } else {
-      throw new Error("Erreur lors de la connexion.");
+      throw new Error("Error user not found !");
     }
   } catch (error) {
     console.error(error);

@@ -6,22 +6,24 @@ import { useNavigate } from "react-router-dom";
 
 function MainSignIn() {
   const dispatch = useDispatch();
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSignIn = async (e) => {
     e.preventDefault();
     try {
-      const response = await dispatch(loginUser({ username, password }));
+      const response = await dispatch(loginUser({ email, password }));
 
-      if (response && response.status === 200) {
+      if (response && response.ok) {
         navigate("/user");
       } else {
-        console.error("Erreur lors de la connexion.");
+        throw new Error("User not found or other error.");
       }
     } catch (error) {
-      console.error(error);
+      console.error(error.message);
+      setError(error.message);
     }
   };
 
@@ -32,12 +34,12 @@ function MainSignIn() {
         <h1>Sign In</h1>
         <form onSubmit={handleSignIn}>
           <div className="input-wrapper">
-            <label htmlFor="username">Username</label>
+            <label htmlFor="email">E-mail</label>
             <input
               type="text"
-              id="username"
-              autoComplete="username"
-              onChange={(e) => setUsername(e.target.value)}
+              id="email"
+              autoComplete="email"
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="input-wrapper">
@@ -56,6 +58,7 @@ function MainSignIn() {
           <button className="sign-in-button" type="submit">
             Sign In
           </button>
+          <div id="error">{error}</div>
         </form>
       </section>
     </main>
