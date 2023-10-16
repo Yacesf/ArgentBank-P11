@@ -1,7 +1,13 @@
 export const RECEIVE_PROFILE = "RECEIVE_PROFILE";
+export const UPDATE_USERNAME = "UPDATE_USERNAME";
 const initialState = {
-  id: "",
+  createdAt: "",
   email: "",
+  firstName: "",
+  id: "",
+  lastName: "",
+  updatedAt: "",
+  userName: "",
 };
 
 const profileReducer = (state = initialState, action) => {
@@ -9,8 +15,12 @@ const profileReducer = (state = initialState, action) => {
     case RECEIVE_PROFILE:
       return {
         ...state,
-        id: action.payload.id,
-        email: action.payload.email,
+        ...action.payload,
+      };
+      case UPDATE_USERNAME:
+      return {
+        ...state,
+        userName: action.payload,
       };
     default:
       return state;

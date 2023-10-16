@@ -1,6 +1,6 @@
 import { receiveProfile } from "../reducers/actions/profileAction";
 
-export const profileUser = (profileData) => async (dispatch) => {
+export const fetchProfileUser = () => async (dispatch) => {
   try {
     const response = await fetch("http://localhost:3001/api/v1/user/profile", {
       method: "POST",
@@ -9,13 +9,12 @@ export const profileUser = (profileData) => async (dispatch) => {
         accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(profileData),
     });
 
     if (response.ok) {
       const data = await response.json();
       dispatch(receiveProfile(data.body))
-      return response
+      return data
     } else {
       throw new Error("Error user not found !");
     }

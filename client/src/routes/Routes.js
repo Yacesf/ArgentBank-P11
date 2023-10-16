@@ -7,8 +7,8 @@ function RoutesApp() {
   return (
     <Routes>
       <Route path="/" element={<MainIndex />} />
-      <Route path="/sign-in" element={<MainSignIn />} />
-      <Route path="/user" element={<MainUser />} />
+      <Route path="/login" element={<MainSignIn />} />
+      <Route path="/profile" element={<MainUser />} />
     </Routes>
   )
 }

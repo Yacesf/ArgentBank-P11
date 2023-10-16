@@ -17,7 +17,7 @@ function MainSignIn() {
       const response = await dispatch(loginUser({ email, password }));
 
       if (response && response.ok) {
-        navigate("/user");
+        navigate("/profile");
       } else {
         throw new Error("User not found or other error.");
       }
