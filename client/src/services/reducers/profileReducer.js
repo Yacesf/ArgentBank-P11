@@ -1,30 +1,31 @@
-export const RECEIVE_PROFILE = "RECEIVE_PROFILE";
-export const UPDATE_USERNAME = "UPDATE_USERNAME";
+import { createSlice } from "@reduxjs/toolkit";
+
 const initialState = {
-  createdAt: "",
-  email: "",
   firstName: "",
-  id: "",
   lastName: "",
-  updatedAt: "",
   userName: "",
 };
 
-const profileReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case RECEIVE_PROFILE:
-      return {
-        ...state,
-        ...action.payload,
-      };
-      case UPDATE_USERNAME:
-      return {
-        ...state,
-        userName: action.payload,
-      };
-    default:
-      return state;
+const profileReducer = createSlice({
+  name: "profile",
+  initialState,
+  reducers: {
+    receiveFirstName: (state, action) => {
+      state.firstName = action.payload
+    },
+    receiveLastName: (state, action) => {
+      state.lastName = action.payload
+    },
+    receiveUserName: (state, action) => {
+      state.userName = action.payload
+    }
   }
-};
+})
 
-export default profileReducer;
+export const {
+  receiveFirstName,
+  receiveLastName,
+  receiveUserName
+} = profileReducer.actions
+
+export default profileReducer.reducer

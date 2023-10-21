@@ -1,27 +1,35 @@
 import "./index.css";
 import Logo from "../../img/argentBankLogo.png";
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../../services/reducers/actions/logoutAction";
+import { useDispatch, useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import { fetchProfileUser } from "../../services/fetch/profileUser";
 
 function Header() {
-  const isLogged = useSelector((state) => state.login);
+  const dispatch = useDispatch()
   const loggedProfile = useSelector((state) => state.profile);
-  const dispatch = useDispatch();
-  const hasToken = !!localStorage.getItem("loginToken");
+  const [hasToken, setHasToken] = useState(false);
   console.log("Log du header", loggedProfile);
-  const signInOrSignOut = hasToken ? "Sign-Out" : "Sign-In";
-
+  
   const handleSignOut = () => {
-    if (hasToken) {
-      dispatch(logout());
+      localStorage.removeItem("loginToken");
+      setHasToken(false);
     }
-  };
+
+  useEffect(() => {
+    const token = localStorage.getItem("loginToken");
+    if (token) {
+      setHasToken(true); 
+      dispatch(fetchProfileUser())
+    }
+    console.log(token)
+  }, [dispatch])
+
 
   return (
     <header>
       <nav className="main-nav">
-        <Link className="main-nav-logo" to={"/"}>
+        <Link className="main-nav-logo" to="/">
           <img
             className="main-nav-logo-image"
             src={Logo}
@@ -31,8 +39,8 @@ function Header() {
         </Link>
         <div id="bar-link">
           {hasToken ? (
-            <Link to={"/profile"} className="main-nav-item">
-            <i className="fa fa-user-circle"></i>
+            <Link to="/profile" className="main-nav-item">
+              <i className="fa fa-user-circle"></i>
               {loggedProfile.userName}
             </Link>
           ) : null}
@@ -42,12 +50,11 @@ function Header() {
             onClick={handleSignOut}
           >
             <i className="fa fa-user-circle"></i>
-            {signInOrSignOut}
+            {hasToken ? "Sign-Out" : "Sign-In"}
           </Link>
         </div>
       </nav>
     </header>
   );
 }
-
 export default Header;

@@ -1,23 +1,27 @@
 import React, { useState } from "react";
 import "./index.css";
-import { loginUser } from "../../services/fetch/loginUser";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 
 function MainSignIn() {
-  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const navigate = useNavigate();
 
   const handleSignIn = async (e) => {
     e.preventDefault();
     try {
-      const response = await dispatch(loginUser({ email, password }));
+      const response = await fetch("http://localhost:3001/api/v1/user/login", {
+        method: "POST",
+        headers: {
+          accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-      if (response && response.ok) {
-        navigate("/profile");
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem("loginToken", data.body.token);
+        window.location.href = "/profile";
       } else {
         throw new Error("User not found or other error.");
       }

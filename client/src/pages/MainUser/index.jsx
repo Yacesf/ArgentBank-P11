@@ -1,8 +1,9 @@
 import "./index.css";
 import {  useEffect, useState } from "react";
 import { fetchProfileUser } from "../../services/fetch/profileUser";
+import { fetchChangeUsername } from "../../services/fetch/changeUsername";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUsername } from "../../services/reducers/actions/usernameAction";
+// import { updateUsername } from "../../services/reducers/actions/usernameAction";
 
 function MainUser() {
   const dispatch = useDispatch();
@@ -27,8 +28,9 @@ function MainUser() {
     setIsEditing(true);
   };
 
-  const handleSaveClick = () => {
-    dispatch(updateUsername(newUsername))
+  const handleSaveClick = async () => {
+    // dispatch(updateUsername(newUsername));
+    await fetchChangeUsername(newUsername);
     setIsEditing(false);
   };
 

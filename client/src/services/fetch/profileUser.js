@@ -1,4 +1,4 @@
-import { receiveProfile } from "../reducers/actions/profileAction";
+import { receiveFirstName, receiveLastName, receiveUserName } from "../reducers/profileReducer";
 
 export const fetchProfileUser = () => async (dispatch) => {
   try {
@@ -12,8 +12,10 @@ export const fetchProfileUser = () => async (dispatch) => {
     });
 
     if (response.ok) {
-      const data = await response.json();
-      dispatch(receiveProfile(data.body))
+      const data = await response.json()
+        dispatch(receiveFirstName(data.body.firstName));
+        dispatch(receiveLastName(data.body.lastName));
+        dispatch(receiveUserName(data.body.userName));
       return data
     } else {
       throw new Error("Error user not found !");
