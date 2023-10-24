@@ -1,27 +1,26 @@
 import "./index.css";
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchProfileUser } from "../../services/fetch/profileUser";
 import { fetchChangeUsername } from "../../services/fetch/changeUsername";
-import { useDispatch, useSelector } from "react-redux";
-// import { updateUsername } from "../../services/reducers/actions/usernameAction";
+import { receiveUserName } from "../../services/reducers/profileReducer";
 
 function MainUser() {
   const dispatch = useDispatch();
   const profile = useSelector((state) => state.profile);
-  const [isEditing, setIsEditing] = useState(false)
-  const [newUsername, setNewUsername] = useState(profile.userName)
+  const [isEditing, setIsEditing] = useState(false);
+  const [newUsername, setNewUsername] = useState(profile.userName);
 
   useEffect(() => {
-    const dataProfile = async () => {
+    const fetchDataProfile = async () => {
       try {
-        const profileDispatch = fetchProfileUser();
-        const response = await profileDispatch(dispatch)
+        await dispatch(fetchProfileUser());
       } catch (error) {
         console.error("An error occurred", error);
       }
     };
 
-    dataProfile();
+    fetchDataProfile();
   }, [dispatch]);
 
   const handleEditClick = () => {
@@ -29,8 +28,17 @@ function MainUser() {
   };
 
   const handleSaveClick = async () => {
-    // dispatch(updateUsername(newUsername));
-    await fetchChangeUsername(newUsername);
+    dispatch(receiveUserName(newUsername));
+    try {
+      await dispatch(fetchChangeUsername(newUsername));
+    } catch (error) {
+      console.error(error);
+    }
+
+    setIsEditing(false);
+  };
+
+  const handleCancelEditClick = () => {
     setIsEditing(false);
   };
 
@@ -47,16 +55,43 @@ function MainUser() {
           {profile.firstName} {profile.lastName} !
         </h1>
         {isEditing ? (
-          <>
-            <input
-              type="text"
-              value={newUsername}
-              onChange={handleUsernameChange}
-            />
-            <button className="save-button" onClick={handleSaveClick}>
-              Save
-            </button>
-          </>
+          <div id="form-edit">
+            <div className="div-input">
+              User name: 
+              <input
+                className="input-form"
+                type="text"
+                value={newUsername}
+                onChange={handleUsernameChange}
+              />
+            </div>
+            <div className="div-input">
+              First name: 
+              <input
+                className="input-form"
+                type="text"
+                readOnly
+                value={profile.firstName}
+              />
+            </div>
+            <div className="div-input">
+              Last name: 
+              <input
+                className="input-form"
+                type="text"
+                readOnly
+                value={profile.lastName}
+              />
+            </div>
+            <div id="form-buttons">
+              <button className="form-button" onClick={handleSaveClick}>
+                Save
+              </button>
+              <button className="form-button" onClick={handleCancelEditClick}>
+                Cancel
+              </button>
+            </div>
+          </div>
         ) : (
           <button className="edit-button" onClick={handleEditClick}>
             Edit Username

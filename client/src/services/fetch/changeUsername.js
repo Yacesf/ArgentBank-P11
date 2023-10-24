@@ -1,4 +1,4 @@
-// import { updateUsername } from "../reducers/actions/usernameAction";
+import { receiveUserName } from "../reducers/profileReducer";
 
 export const fetchChangeUsername = (newUsername) => async (dispatch) => {
   try {
@@ -11,12 +11,10 @@ export const fetchChangeUsername = (newUsername) => async (dispatch) => {
       },
       body: JSON.stringify({ userName: newUsername }),
     });
-    console.log("Fetch response:", response);
-    if (response.ok) {
-      const data = await response.json();
-      // dispatch(updateUsername(newUsername))
-      return data
+    if(response.ok) {
+      dispatch(receiveUserName(newUsername))
     }
+    console.log("Fetch response:", response);
   } catch (error) {
     console.error(error);
   }

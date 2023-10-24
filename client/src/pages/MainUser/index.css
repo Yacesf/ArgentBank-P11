@@ -43,12 +43,45 @@
   padding: 10px;
 }
 
-.save-button {
-  margin-left: 5px;
+
+#form-edit {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.div-input {
+  display: flex;
+  gap: 5px;
+}
+
+.input-form {
+  border-radius: 5px;
+}
+
+input[readonly] {
+  background-color: #ccc;
+  color: #888;
+  border: 1px solid #ddd;
+}
+
+#form-buttons {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  justify-content: center;
+}
+
+.form-button {
   border-color: #00bc77;
   background-color: #00bc77;
   color: #fff;
+  border-radius: 5px;
   font-weight: bold;
+  padding: 7px;
+  width: 15%;
 }
 
 .header {

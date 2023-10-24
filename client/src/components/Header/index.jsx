@@ -49,8 +49,17 @@ function Header() {
             to={hasToken ? "/" : "/login"}
             onClick={handleSignOut}
           >
-            <i className="fa fa-user-circle"></i>
-            {hasToken ? "Sign-Out" : "Sign-In"}
+            {hasToken ? (
+              <>
+                <i className="fa-solid fa-right-from-bracket"></i>
+                Sign-Out
+              </>
+            ) : (
+              <>
+                <i className="fa-solid fa-right-to-bracket"></i>
+                Sign-In
+              </>
+            )}
           </Link>
         </div>
       </nav>
