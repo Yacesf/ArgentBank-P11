@@ -102,20 +102,18 @@ paths:
         "500":
           description: Internal Server Error
   #Ajouts des endpoints pour la phase 2
-  /user/bankaccount/{userName}:
+  /user/bankaccount/{bankAccountId}:
     get:
       tags:
         - User Module
-      summary: User bank account
-      description: API to read a user's bank account
+      summary: Read user's bank account
+      description: Retrieve a user's bank account
       parameters:
-        - name: userName
+        - name: bankAccountId
           in: path
-          description: The username of the user whose bank account you want to retrieve
+          description: ID of the user's bank account to retrieve
           required: true
           type: string
-          produces:
-            - application/json
       responses:
         "200":
           description: User's bank account retrieved successfully
@@ -127,18 +125,18 @@ paths:
           description: User not found
         "500":
           description: Internal Server Error
-  /user/bankaccount/transaction/{userName}:
+  /user/bankaccount/transaction/{bankAccountId}:
     get:
       security:
         - Bearer: []
       tags:
         - User Module
-      summary: User Transaction
-      description: Get a transaction of the user's bank account
+      summary: Retrieve a user's transaction
+      description: Retrieve a transaction from the user's bank account
       parameters:
-        - name: userName
+        - name: bankAccountId
           in: path
-          description: The username of the user whose transaction you want to retrieve
+          description: ID of the user's bank account to retrieve the transaction from
           required: true
           type: string
       produces:
@@ -158,7 +156,7 @@ paths:
         - Bearer: []
       tags:
         - User Module
-      summary: User One Transaction
+      summary: Read a selected transaction
       description: API for reading a selected transaction
       parameters:
         - name: transactionId
@@ -177,80 +175,83 @@ paths:
           description: Invalid Fields
         "500":
           description: Internal Server Error
+  /user/transaction/comment/{transactionId}:
     post:
-    security:
-      - Bearer: []
-    tags:
-      - User Module
-    summary: User Transaction API
-    description: API for adding a comment to the transaction
-    parameters:
-      - in: body
-        name: body
-        description: New Transaction comment Payload
-        required: true
-        schema:
-          $ref: "#/definitions/Transaction"
-    produces:
-      - application/json
-    responses:
-      "200":
-        description: Transaction profile updated successfully with a comment
-        schema:
-          $ref: "#/definitions/TransactionResponse"
-      "400":
-        description: Invalid Fields
-      "500":
-        description: Internal Server Error
-  put:
-    security:
-      - Bearer: []
-    tags:
-      - User Module
-    summary: Update User Transaction Comment
-    description: API for updating the comment in a user's transaction
-    parameters:
-      - in: body
-        name: body
-        description: Update comment for the user transaction
-        required: true
-        schema:
-          $ref: "#/definitions/Transaction"
-    produces:
-      - application/json
-    responses:
-      "200":
-        description: User transaction comment updated successfully
-        schema:
-          $ref: "#/definitions/TransactionResponse"
-      "400":
-        description: Invalid Fields
-      "500":
-        description: Internal Server Error
-  delete:
-    security:
-      - Bearer: []
-    tags:
-      - User Module
-    summary: Delete User Transaction Comment
-    description: API for deleting a comment in a user's transaction
-    parameters:
-      - name: transactionId
-        in: path
-        description: ID of the transaction with the comment to delete
-        required: true
-        type: string
-        produces:
-          - application/json
-    responses:
-      "200":
-        description: User transaction comment deleted successfully
-        schema:
-          $ref: "#/definitions/TransactionResponse"
-      "400":
-        description: Invalid Fields
-      "500":
-        description: Internal Server Error
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: Add User Transaction Comment API
+      description: API for adding a comment to the transaction
+      parameters:
+        - in: body
+          name: body
+          description: New Transaction comment Payload
+          required: true
+          schema:
+            $ref: "#/definitions/TransactionComment"
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Transaction profile added successfully with a comment
+          schema:
+            $ref: "#/definitions/TransactionCommentResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: Update User Transaction Comment API
+      description: API for updating the comment in a user's transaction
+      parameters:
+        - in: body
+          name: body
+          description: Update comment for the user transaction
+          required: true
+          schema:
+            $ref: "#/definitions/TransactionComment"
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: User transaction comment updated successfully
+          schema:
+            $ref: "#/definitions/TransactionCommentResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: Delete User Transaction Comment API
+      description: API for deleting a comment in a user's transaction
+      parameters:
+        - name: transactionId
+          in: path
+          description: ID of the transaction with the comment to delete
+          required: true
+          type: string
+          produces:
+            - application/json
+      responses:
+        "200":
+          description: User transaction comment deleted successfully
+          schema:
+            $ref: "#/definitions/TransactionCommentResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
 # Fin des ajouts
 securityDefinitions:
   Bearer:
@@ -307,3 +308,56 @@ definitions:
     properties:
       userName:
         type: string
+  Account:
+    type: object
+    properties:
+      bankAccountId:
+        type: string
+        description: Unique identifier for the bank account.
+      body:
+        type: object
+        properties:
+          balance:
+            type: number
+            description: Current balance of the account.
+  TransactionsResponse:
+    type: object
+    properties:
+      numberOfTransactions:
+        type: number
+        description: Number of transactions in the response.
+      transaction:
+        type: object
+        properties:
+          transactionId:
+            type: string
+            description: Unique identifier for the transaction.
+          date:
+            type: string
+            description: Date of the transaction.
+          amount:
+            type: number
+            description: Transaction amount.
+          place:
+            type: string
+            description: Location or description of the transaction.
+          balance:
+            type: number
+            description: Account balance after the transaction.
+  TransactionResponse:
+    type: object
+    properties:
+      transactionType:
+        type: string
+        description: Type of the transaction.
+      category:
+        type: string
+        description: Category of the transaction.
+      comment:
+        type: string
+        description: Additional comment or notes for the transaction.
+  TransactionCommentResponse:
+    properties:
+      comment:
+        type: string
+        description: Comment associated with the transaction.

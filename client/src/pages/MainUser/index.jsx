@@ -14,7 +14,7 @@ function MainUser() {
   useEffect(() => {
     const fetchDataProfile = async () => {
       try {
-        await dispatch(fetchProfileUser());
+        dispatch(fetchProfileUser());
       } catch (error) {
         console.error("An error occurred", error);
       }
@@ -30,7 +30,7 @@ function MainUser() {
   const handleSaveClick = async () => {
     dispatch(receiveUserName(newUsername));
     try {
-      await dispatch(fetchChangeUsername(newUsername));
+      dispatch(fetchChangeUsername(newUsername));
     } catch (error) {
       console.error(error);
     }
