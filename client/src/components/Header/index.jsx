@@ -1,5 +1,5 @@
 import "./index.css";
-import Logo from "../../img/argentBankLogo.png";
+import Logo from "../../img/argentBankLogo.jpg";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
